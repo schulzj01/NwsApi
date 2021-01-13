@@ -27,13 +27,13 @@
 	</div>
 		<h3 class="page-title">Alerts</h3>
 		<div id="alerts">
-			<p><span>By Zone: </span><input id="alertByZoneNumber" type="text" placeholder="IDZ020"><input id="alertByZoneNumberSubmit" type="button" value="Get Alerts" /></p>
-			<p><span>By Product Type: </span><input id="alertByProductType" type="text" placeholder="Avalanche Warning"><input id="alertByProductTypeSubmit" type="button" value="Get Alerts" /></p>
+			<p><span>By Zone: </span><input type="text" value="IDZ020" data-filter="zone"><input class="alertSubmit" type="button" value="Get Alerts" /></p>
+			<p><span>By Event Type: </span><input type="text" value="Avalanche Warning" data-filter="event"><input class="alertSubmit" type="button" value="Get Alerts" /></p>
 		</div>
 		<h3 class="page-title">Products</h3>
 		<div id="products">
-			<p><span>By Location: </span><input id="productByLocation" type="text" placeholder="PIH"><input id="productByLocationSubmit" type="button" value="Get Products" /></p>
-			<p><span>By Product Type: </span><input id="productByProductType" type="text" placeholder="AFD"><input id="productByProductTypeSubmit" type="button" value="Get Products" /></p>
+			<p><span>By Location: </span><input type="text" value="PIH" data-filter="location"><input class="productSubmit" type="button" value="Get Products" /></p>
+			<p><span>By Product Type: </span><input type="text" value="AFD" data-filter="type"><input class="productSubmit" type="button" value="Get Products" /></p>
 		</div>		
 	</div>
 </body>
