@@ -1,5 +1,5 @@
 {
-  "name": "nws-api",
+  "name": "NwsApi",
   "version": "1.0.0",
   "description": "An attempt to have better access to the nws api",
   "scripts": {
