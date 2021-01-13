@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My homepage</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="cache-control" content="no-cache"/>
+  <meta http-equiv="pragma" content="no-cache"/>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport"
+				content="width=device-width,user-scalable=0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+	<script src="NwsApi.js"></script>
+	<style>
+		#textViewer {
+			float:right;
+			width:1000px;
+			height:800px;
+			border: thin black solid;
+			overflow-y:scroll;
+			font-family: monospace;
+    	white-space: pre-wrap;
+		}
+
+	</style>
+</head>
+	<div id="textViewer">
+
+	</div>
+		<h3 class="page-title">Alerts</h3>
+		<div id="alerts">
+			<p><span>By Zone: </span><input id="alertByZoneNumber" type="text" placeholder="IDZ020"><input id="alertByZoneNumberSubmit" type="button" value="Get Alerts" /></p>
+			<p><span>By Product Type: </span><input id="alertByProductType" type="text" placeholder="Avalanche Warning"><input id="alertByProductTypeSubmit" type="button" value="Get Alerts" /></p>
+		</div>
+		<h3 class="page-title">Products</h3>
+		<div id="products">
+			<p><span>By Location: </span><input id="productByLocation" type="text" placeholder="PIH"><input id="productByLocationSubmit" type="button" value="Get Products" /></p>
+			<p><span>By Product Type: </span><input id="productByProductType" type="text" placeholder="AFD"><input id="productByProductTypeSubmit" type="button" value="Get Products" /></p>
+		</div>		
+	</div>
+</body>
+</html>

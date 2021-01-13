@@ -1,0 +1,18 @@
+{
+  "name": "nws-api",
+  "version": "1.0.0",
+  "description": "An attempt to have better access to the nws api",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production --env production",
+    "start": "webpack serve --mode development --env development"
+  },
+  "author": "Jeremy.Schulz@noaa.gov",
+  "dependencies": {
+    "webpack": "^5.11.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.3.1",
+    "webpack-dev-server": "^4.0.0-beta.0"
+  }
+}
