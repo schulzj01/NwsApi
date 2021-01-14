@@ -23,7 +23,8 @@ function waiting(){
 
 /*   Alert Tests  */
 function alertSubmit(event){	
-	let input = event.srcElement.previousSibling;
+	let button = event.srcElement;
+	let input = button.previousSibling;
 	let val = input.value;
 	let filter = button.dataset.filter;
 	let alert = new NwsApi.Alert({ 
