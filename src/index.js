@@ -5,4 +5,4 @@ import Product from './js/Product.js';
 
 export {Alert, Forecast, Product};
 
-//require('./development.js');
+require('./development.js');

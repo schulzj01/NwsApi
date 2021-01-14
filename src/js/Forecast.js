@@ -1,15 +1,19 @@
+import Base from './Base.js';
 
-export default class Forecasts {
-
+export default class Forecast extends Base  {
 	constructor(lat,lon) {
+		super();
 		this._baseUrl = 'https://api.weather.gov/';
 		this._pointsUrl = 'points/';
 		this._gridpointsUrl = 'gridpoints/';
 		this._fcstHourlyUrl = 'forecast/hourly';
 		this._fcstSummaryUrl = 'forecast';
-	
+
+		this._requestRetryLimit = 4;
+		this._requestRetryTimeout = 4000; 
 		this._lat = lat;
 		this._lon = lon;
+
 		this._metaData = null;
 		this._rawForecast = null;
 		this._summaryForecast = null;
@@ -17,22 +21,22 @@ export default class Forecasts {
 	}
 
 	async getRawForecast(callback,...args){
-		if (!this._rawForecast){ await this.queryAPIRawForecast(); }
+		if (!this._rawForecast){ await this.queryRawForecast(); }
 		if (callback)  { callback(json,...args); }
 		else { return this._rawForecast; }
 	}
 	async getHourlyForecast(callback,...args){
-		if (!this._hourlyForecast){ await this.queryAPIHourlyForecast(); }
+		if (!this._hourlyForecast){ await this.queryHourlyForecast(); }
 		if (callback)  { callback(json,...args); }
 		else { return this._hourlyForecast; }
 	}
 	async getSummaryForecast(callback,...args){
-		if (!this._summaryForecast){ await this.queryAPISummaryForecast(); }
+		if (!this._summaryForecast){ await this.querySummaryForecast(); }
 		if (callback)  { callback(json,...args); }
 		else { return this._summaryForecast; }
 	}
 	async getMetaData(){
-		if (!this._metaData){ await this.queryAPIPointMetaData();	}
+		if (!this._metaData){ await this.queryPointMetadata();	}
 		return this._metaData; 
 	}
 	
@@ -40,36 +44,30 @@ export default class Forecasts {
 	get gridY() { return this._metaData.properties.gridY; }
 	get cwa() { return this._metaData.properties.cwa; }
 
-	async queryAPIPointMetaData() {
+	async queryPointMetadata() {
 		var self = this;
 		var url = this._baseUrl+this._pointsUrl+this._lat+','+this._lon;
-		await $.ajax({
-			url: url,
-			dataType: 'json',
-			method:'GET',
-			success: function(data){ 
-				self._metaData = data; 
-			}
-		});
+		const response = await this.retryFetch(url);
+		this._metaData = await response.json();
 	};
-	async queryAPIRawForecast(callback,...args) {
-		if (!this._metaData){ await this.queryAPIPointMetaData();	}
+	async queryRawForecast(callback,...args) {
+		if (!this._metaData){ await this.queryPointMetadata();	}
 		var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY
-		const response = await fetch(url)
+		const response = await this.retryFetch(url)
 		const json = await response.json();
 		this._rawForecast = json 
 	}
-	async queryAPIHourlyForecast(callback,...args) {
-		if (!this._metaData){ await this.queryAPIPointMetaData();	}
+	async queryHourlyForecast(callback,...args) {
+		if (!this._metaData){ await this.queryPointMetadata();	}
 		var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY+'/'+this._fcstHourlyUrl;
-		const response = await fetch(url)
+		const response = await this.retryFetch(url)
 		const json = await response.json();
 		this._hourlyForecast = json 
 	}
-	async queryAPISummaryForecast(callback,...args) {
-		if (!this._metaData){ await this.queryAPIPointMetaData();	}
+	async querySummaryForecast(callback,...args) {
+		if (!this._metaData){ await this.queryPointMetadata();	}
 		var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY+'/'+this._fcstSummaryUrl;
-		const response = await fetch(url)
+		const response = await this.retryFetch(url)
 		const json = await response.json();
 		this._summaryForecast = json 
 	}

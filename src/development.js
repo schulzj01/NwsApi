@@ -7,6 +7,9 @@ window.onload = function() {
 	let productSubmits = [...document.getElementsByClassName('productSubmit')];
 	productSubmits.forEach(el => el.addEventListener('click',productSubmit));
 
+	let forecastSubmits = [...document.getElementsByClassName('forecastSubmit')];
+	forecastSubmits.forEach(el => el.addEventListener('click',forecastSubmit));
+
 }
 function jsonEscape(str)  {
 	return str.replace(/\\n/g,'\n')
@@ -32,7 +35,8 @@ function alertSubmit(event){
 
 /*  Product Tests   */
 function productSubmit(event){
-	let input = event.srcElement.previousSibling;
+	let button = event.srcElement;
+	let input = button.previousSibling;
 	let val = input.value;
 	let filter = input.dataset.filter;
 	let product = new NwsApi.Product({ 
@@ -42,3 +46,13 @@ function productSubmit(event){
 	product.getMostRecent(3,populateText);
 }
 
+/*  Forecast Tests   */
+function forecastSubmit(event){
+	let lat = document.getElementById('forecastLat').value;
+	let lon = document.getElementById('forecastLon').value;
+	let button = event.srcElement;
+	let forecast = button.dataset.forecast;
+	let product = new NwsApi.Forecast(lat,lon);
+	waiting();
+	product.getForecasts(forecast,populateText);
+}

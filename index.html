@@ -19,7 +19,8 @@
 			font-family: monospace;
     	white-space: pre-wrap;
 		}
-
+		input {
+		}
 	</style>
 </head>
 	<div id="textViewer">
@@ -27,14 +28,26 @@
 	</div>
 		<h3 class="page-title">Alerts</h3>
 		<div id="alerts">
-			<p><span>By Zone: </span><input type="text" value="IDZ020" data-filter="zone"><input class="alertSubmit" type="button" value="Get Alerts" /></p>
-			<p><span>By Event Type: </span><input type="text" value="Avalanche Warning" data-filter="event"><input class="alertSubmit" type="button" value="Get Alerts" /></p>
+			<p><span>By Zone: </span><input type="text" value="IDZ020"><input class="alertSubmit" type="button" value="Get Alerts" data-filter="zone" /></p>
+			<p><span>By Event Type: </span><input type="text" value="Avalanche Warning"><input class="alertSubmit" type="button" value="Get Alerts" data-filter="event"/></p>
 		</div>
 		<h3 class="page-title">Products</h3>
 		<div id="products">
-			<p><span>By Location: </span><input type="text" value="PIH" data-filter="location"><input class="productSubmit" type="button" value="Get Products" /></p>
-			<p><span>By Product Type: </span><input type="text" value="AFD" data-filter="type"><input class="productSubmit" type="button" value="Get Products" /></p>
-		</div>		
+			<p><span>By Location: </span><input type="text" value="PIH"><input class="productSubmit" type="button" value="Get Products" data-filter="location" /></p>
+			<p><span>By Product Type: </span><input type="text" value="AFD"><input class="productSubmit" type="button" value="Get Products" data-filter="type"/></p>
+		</div>
+		<h3 class="page-title">Forecasts</h3>
+		<div id="forecasts">
+			<p><span>Lat/Lon: </span><input type="text" value="45.0" id="forecastLat"><input type="text" value="-112.0" id="forecastLon"></p>
+			<p>
+				<input class="forecastSubmit" type="button" data-forecast="raw" value="Get Point Forecast" />
+				<input class="forecastSubmit" type="button" data-forecast="hourly" value="Get Hourly Forecast" />
+				<input class="forecastSubmit" type="button" data-forecast="summary" value="Get Summary Forecast" />
+				<br>
+				<input class="forecastSubmit" type="button" data-forecast="zone" value="Get Zone Forecast" disabled/>
+				<input class="forecastSubmit" type="button" data-forecast="raw,hourly,summary" value="Get All Forecasts" />
+			</p>
+		</div>			
 	</div>
 </body>
 </html>
