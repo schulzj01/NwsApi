@@ -25,7 +25,7 @@ function waiting(){
 function alertSubmit(event){	
 	let input = event.srcElement.previousSibling;
 	let val = input.value;
-	let filter = input.dataset.filter;
+	let filter = button.dataset.filter;
 	let alert = new NwsApi.Alert({ 
 		[filter] : val,
 	});
@@ -38,7 +38,7 @@ function productSubmit(event){
 	let button = event.srcElement;
 	let input = button.previousSibling;
 	let val = input.value;
-	let filter = input.dataset.filter;
+	let filter = button.dataset.filter;
 	let product = new NwsApi.Product({ 
 		[filter] : val,
 	});
