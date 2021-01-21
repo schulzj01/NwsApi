@@ -9,8 +9,7 @@ export default class Product extends Base  {
 		//this._zoneUrl = '/zone';
 		this._requestRetryLimit = 4;
 		this._requestRetryTimeout = 1000; //4000;
-		this._getMostRecentLimit = 50;
-		this._getAllLimit = 250;
+		this._getAllLimit = 25;
 		this._filters = {
 			location : null,
 			start : null,
@@ -48,28 +47,34 @@ export default class Product extends Base  {
 		//else { return this.returnObj; }			
 	};
 
-	//Returns the most recent products given a total number to go back.
-	async getMostRecent(numProducts = 1,callback,...args){
-		//Make sure we're not requesting more then our max number of products.
-		if (numProducts > this._mostRecentLimit) { numProducts = this._mostRecentLimit; }
-		if (!this._productListing) { await this.getFullProductListing(); }
-		let prodListingSubset = this._productListing.slice(0,numProducts);
-		let prodFullTexts = await this.getProductsFulltext(prodListingSubset);
+	// //Returns the most recent products given a total number to go back.
+	// async getMostRecent(numProducts = 1,callback,...args){
+	// 	//Make sure we're not requesting more then our max number of products.
+	// 	if (numProducts > this._mostRecentLimit) { numProducts = this._mostRecentLimit; }
+	// 	if (!this._productListing) { await this.getFullProductListing(); }
+	// 	let prodListingSubset = this._productListing.slice(0,numProducts);
+	// 	let prodFullTexts = await this.getProductsFulltext(prodListingSubset);
 
 		
-		if (callback)  { callback(prodFullTexts,...args); }
-		else { return prodFullTexts; }
-	}
+	// 	if (callback)  { callback(prodFullTexts,...args); }
+	// 	else { return prodFullTexts; }
+	// }
 
 	//Get all products from the current product listing.  Note caution has to be used with this.
 	//Perhaps I need another maximum or rate limiter to not allow folks to accidetnally query 5000 products?
 	async getAll(callback,...args){
 		let prodListingSubset = [];
+		//If we haven't queryied our product listing yet, lets get it over with.
 		if (!this._productListing) { prodListingSubset = await this.getFullProductListing(); }
 		else { prodListingSubset = this._productListing; }
-		if (prodListingSubset.length > this._getAllLimit) { prodListingSubset = prodListingSubset.slice(0,this._getAllLimit); }
+
+		//If a limit isn't set (by accident), the amount of raw products returned would overwhelm the system with ajax requests. 
+		//So by default, we're going to limit products to the _getAllLimit variable.  This will be overrident if limit is set higher 
+		//when initiating the class.
+		if (!this._filters.limit) { prodListingSubset = prodListingSubset.slice(0,this._getAllLimit); }
+		//if (prodListingSubset.length > this._getAllLimit) { prodListingSubset = prodListingSubset.slice(0,this._getAllLimit); }
 		
-		let prodFullTexts = await this.getMultipleProductsFulltext(prodListingSubset);
+		let prodFullTexts = await this.getProductsFulltext(prodListingSubset);
 		if (callback)  { callback(prodFullTexts,...args); }
 		else { return prodFullTexts; }
 	}
@@ -81,7 +86,6 @@ export default class Product extends Base  {
 			let urls = productListing.map( prod => prod['@id']);			
 			productTexts = await this.retryFetchAllJson(urls, null, this._requestRetryTimeout, this._requestRetryLimit);
 		} 
-		console.log(productTexts);
 		return productTexts;
 	}
 

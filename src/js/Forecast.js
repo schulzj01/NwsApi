@@ -47,27 +47,27 @@ export default class Forecast extends Base  {
 	async queryPointMetadata() {
 		var self = this;
 		var url = this._baseUrl+this._pointsUrl+this._lat+','+this._lon;
-		const response = await this.retryFetch(url);
+		const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit);
 		this._metaData = await response.json();
 	};
 	async queryRawForecast(callback,...args) {
 		if (!this._metaData){ await this.queryPointMetadata();	}
 		var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY
-		const response = await this.retryFetch(url)
+		const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit)
 		const json = await response.json();
 		this._rawForecast = json 
 	}
 	async queryHourlyForecast(callback,...args) {
 		if (!this._metaData){ await this.queryPointMetadata();	}
 		var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY+'/'+this._fcstHourlyUrl;
-		const response = await this.retryFetch(url)
+		const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit)
 		const json = await response.json();
 		this._hourlyForecast = json 
 	}
 	async querySummaryForecast(callback,...args) {
 		if (!this._metaData){ await this.queryPointMetadata();	}
 		var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY+'/'+this._fcstSummaryUrl;
-		const response = await this.retryFetch(url)
+		const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit)
 		const json = await response.json();
 		this._summaryForecast = json 
 	}

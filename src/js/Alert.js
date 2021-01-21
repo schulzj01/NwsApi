@@ -33,7 +33,7 @@ export default class Alert extends Base  {
 			zone : null,
 			county : null,  
 			latlon : null,
-			newprop : null,
+			//newprop : null,
 		}
 		this.returnObj = {
 			updated : null,
@@ -50,14 +50,11 @@ export default class Alert extends Base  {
 			let json = await response.json();
 			this.returnObj.updated = new Date(json.updated);
 			this.returnObj.features = json.features;
-
-			//if (this._pil !== null) { json = await this.byPil() }		
 		} 
 		catch {
 			console.error('NWS API Unavailable or Bad Request: ' + url); 
 			this.returnObj = false;
 		}
-
 		if (callback) { callback(this.returnObj,...args); }
 		else { return this.returnObj; }			
 	};

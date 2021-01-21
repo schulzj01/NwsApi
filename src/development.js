@@ -32,6 +32,8 @@ function alertSubmit(event){
 	});
 	waiting();
 	alert.getAll(populateText);
+
+
 }
 
 /*  Product Tests   */
@@ -42,9 +44,10 @@ function productSubmit(event){
 	let filter = button.dataset.filter;
 	let product = new NwsApi.Product({ 
 		[filter] : val,
+		limit : 3
 	});
 	waiting();
-	product.getMostRecent(3,populateText);
+	product.getAll(populateText);
 }
 
 /*  Forecast Tests   */
