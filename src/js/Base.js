@@ -3,7 +3,7 @@ export default class Base {
 	constructor(){
 	}
 
-  //retrys a promise multiple times with a timeout in order to deal with failed requests.
+  //retrys a promise multiple times with a timeout in order to deal with failed requests to the API.
 	async retryFetch(url, options, wait, numTries) {
     try {
 			let response = await fetch(url, options);
@@ -29,7 +29,7 @@ export default class Base {
 
 
 	async sleep(ms) {
-  	return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms));
 	};
 
 
@@ -37,19 +37,16 @@ export default class Base {
   buildGetUrl(baseUrl, parameters) {
 		//Object.entries(obj).sort((a, b) => b[0].localeCompare(a[0]));
 		let url = baseUrl+'?';
-  	for (let [k, v] of Object.entries(parameters)) {
-	    if (v !== null) {
-      	let parm = k;
-      	let val = '';
-      	if (Array.isArray(v)) { val = v.join(','); }
-      	else { val = v.toString(); }
-      	url += '&' + parm + '=' + val;
-    	}
+    for (let [k, v] of Object.entries(parameters)) {
+       if (v !== null) {
+        let parm = k;
+        let val = '';
+        if (Array.isArray(v)) { val = v.join(','); }
+        else { val = v.toString(); }
+        url += '&' + parm + '=' + val;
+			}
 		}
 		url = encodeURI(url);
 		return url;
 	}	
-
-
-
 }
