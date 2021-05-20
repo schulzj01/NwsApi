@@ -32,8 +32,6 @@ function alertSubmit(event){
 	});
 	waiting();
 	alert.getAll(populateText);
-
-
 }
 
 /*  Product Tests   */

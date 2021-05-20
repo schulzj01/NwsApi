@@ -22,12 +22,12 @@ export default class Forecast extends Base  {
 
 	async getRawForecast(callback,...args){
 		if (!this._rawForecast){ await this.queryRawForecast(); }
-		if (callback)  { callback(json,...args); }
+		if (callback)  { callback(this._rawForecast,...args); }
 		else { return this._rawForecast; }
 	}
 	async getHourlyForecast(callback,...args){
 		if (!this._hourlyForecast){ await this.queryHourlyForecast(); }
-		if (callback)  { callback(json,...args); }
+		if (callback)  { callback(this._hourlyForecast,...args); }
 		else { return this._hourlyForecast; }
 	}
 	async getSummaryForecast(callback,...args){

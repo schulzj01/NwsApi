@@ -38,12 +38,12 @@ export default class Base {
 		//Object.entries(obj).sort((a, b) => b[0].localeCompare(a[0]));
 		let url = baseUrl+'?';
     for (let [k, v] of Object.entries(parameters)) {
-       if (v !== null) {
-        let parm = k;
-        let val = '';
-        if (Array.isArray(v)) { val = v.join(','); }
-        else { val = v.toString(); }
-        url += '&' + parm + '=' + val;
+        if (v !== null) {
+          let parm = k;
+          let val = '';
+          if (Array.isArray(v)) { val = v.join(','); }
+          else { val = v.toString(); }
+          url += '&' + parm + '=' + val;
 			}
 		}
 		url = encodeURI(url);
