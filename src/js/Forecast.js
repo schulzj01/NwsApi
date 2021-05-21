@@ -32,7 +32,7 @@ export default class Forecast extends Base  {
 	}
 	async getSummaryForecast(callback,...args){
 		if (!this._summaryForecast){ await this.querySummaryForecast(); }
-		if (callback)  { callback(json,...args); }
+		if (callback)  { callback(this._summaryForecast,...args); }
 		else { return this._summaryForecast; }
 	}
 	async getMetaData(){
@@ -50,26 +50,34 @@ export default class Forecast extends Base  {
 		const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit);
 		this._metaData = await response.json();
 	};
-	async queryRawForecast(callback,...args) {
+	async queryRawForecast(callback,...args) {	
 		if (!this._metaData){ await this.queryPointMetadata();	}
-		var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY
-		const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit)
-		const json = await response.json();
-		this._rawForecast = json 
+		try {
+			var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY
+			const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit)
+			this._rawForecast = await response.json();
+		}
+		catch { throw new Error(`Unable to load Raw Forecast from ${url}`); }
 	}
 	async queryHourlyForecast(callback,...args) {
 		if (!this._metaData){ await this.queryPointMetadata();	}
-		var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY+'/'+this._fcstHourlyUrl;
-		const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit)
-		const json = await response.json();
-		this._hourlyForecast = json 
+		try {
+			var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY+'/'+this._fcstHourlyUrl;
+			const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit)
+			const json = await response.json();
+			this._hourlyForecast = json 
+		}
+		catch { throw new Error(`Unable to load Hourly Forecast from ${url}`); }
 	}
 	async querySummaryForecast(callback,...args) {
 		if (!this._metaData){ await this.queryPointMetadata();	}
-		var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY+'/'+this._fcstSummaryUrl;
-		const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit)
-		const json = await response.json();
-		this._summaryForecast = json 
+		try {
+			var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY+'/'+this._fcstSummaryUrl;
+			const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit)
+			const json = await response.json();
+			this._summaryForecast = json 
+		}
+		catch { throw new Error(`Unable to load Summary Forecast from ${url}`); }
 	}
 	async getForecasts(types,callback,...args) {
 		let forecastData = {}

@@ -12,3 +12,9 @@ npm start
 ```
 Open brower to localhost:8080
 
+
+Build:
+Comment out the require('./development.js'); line in index.js
+```
+npm run build
+```

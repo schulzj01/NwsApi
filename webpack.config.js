@@ -25,5 +25,5 @@ module.exports = {
 		},
 		injectClient: false // via https://github.com/webpack/webpack-dev-server/issues/2484
 	},
-	devtool: 'inline-source-map',
+	//devtool: 'inline-source-map',
 };
