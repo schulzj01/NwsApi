@@ -1,50 +1,39 @@
 import Base from './Base.js';
 
 
-export default class Alert extends Base  {
+export default class Zone extends Base  {
 	
-	constructor(filters,options) {
+	constructor(zoneType,filters,options) {
 		super();
-		this._queryUrl = 'https://api.weather.gov/alerts';
-		//this._activeUrl = '/active'
-		//this._zoneUrl = '/zone';
+		this._queryUrl = 'https://api.weather.gov/zones';
+		this._zoneType = zoneType;
+
 		this._requestRetryLimit = 4;
 		this._requestRetryTimeout = 4000; //4000;
 		this._filters = {
-			active : null,
-			start : null,
-			end : null,
-			status : null,
-			message_type : null,
-			event : null,
-			code : null,
-			region_type : null,
-			point : null,
-			region : null,
+			id : null,
 			area : null,
-			zone : null,
-			urgency : null,
-			certainty : null,
-			severity : null,
+			region : null,			
+			point : null,
+			include_geometry : null,
 			limit : null,
-			cursor : null,
-			product : null,
-			siteid : null,
-			zone : null,
-			county : null,  
-			latlon : null,
-			//newprop : null,
+			effective : null,
 		}
+
 		this.returnObj = {
 			updated : null,
-			features : null
+			features : null,
+			type : null,
 		}
 		this._filters = Object.assign(this._filters, filters);   // Could also just do "addedBack.comments = Comments.comments;" if you only care about this one property
+		//If our zone type isn't a correct option, error out.
+		this._allowableZoneTypes = ['land','marine','forecast','public','coastal','offshore','fire','county']
+		if (!this._allowableZoneTypes.includes(this._zoneType)) { throw new Error(`Zone type '${this._zoneType}' not valid.  Appropriate values are (${this._allowableZoneTypes.join('|')})`)}
 	};
 
 	async getAll(callback,...args){
-		let url = this.buildGetUrl(this._queryUrl,this._filters);
-
+		let zoneUrl = this._queryUrl+'/'+this._zoneType;
+		let url = this.buildGetUrl(zoneUrl,this._filters);
 		try {
 			const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit);
 			let json = await response.json();

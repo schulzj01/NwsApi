@@ -7,19 +7,16 @@ window.onload = function() {
 	let productSubmits = [...document.getElementsByClassName('productSubmit')];
 	productSubmits.forEach(el => el.addEventListener('click',productSubmit));
 
+	let zoneSubmits = [...document.getElementsByClassName('zoneSubmit')];
+	zoneSubmits.forEach(el => el.addEventListener('click',zoneSubmit));
+
 	let forecastSubmits = [...document.getElementsByClassName('forecastSubmit')];
 	forecastSubmits.forEach(el => el.addEventListener('click',forecastSubmit));
 
 }
-function jsonEscape(str)  {
-	return str.replace(/\\n/g,'\n')
-}
-function populateText(data){
-	document.getElementById('textViewer').innerHTML = jsonEscape(JSON.stringify(data));
-}
-function waiting(){
-	populateText('Loading...');
-}
+function jsonEscape(str)  { return str.replace(/\\n/g,'\n') }
+function populateText(data){ document.getElementById('textViewer').innerHTML = jsonEscape(JSON.stringify(data,null, 2)); }
+function waiting(){ populateText('Loading...'); }
 
 /*   Alert Tests  */
 function alertSubmit(event){	
@@ -46,6 +43,21 @@ function productSubmit(event){
 	});
 	waiting();
 	product.getAll(populateText);
+}
+
+/*  Zone Tests   */
+function zoneSubmit(event){
+	let button = event.srcElement;
+	let input = button.previousSibling;
+	let val = input.value;
+	let filter = button.dataset.filter;
+	let zonetype = document.getElementById('zoneType').selectedOptions[0].value;
+	let zone = new NwsApi.Zone(zonetype,{ 
+		[filter] : val,
+		limit : 3
+	});
+	waiting();
+	zone.getAll(populateText);
 }
 
 /*  Forecast Tests   */

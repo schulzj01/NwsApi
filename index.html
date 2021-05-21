@@ -10,6 +10,7 @@
 				content="width=device-width,user-scalable=0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 	<script src="NwsApi.js"></script>
 	<style>
+		body{margin-left:40px;}		
 		#textViewer {
 			float:right;
 			width:1000px;
@@ -17,24 +18,45 @@
 			border: thin black solid;
 			overflow-y:scroll;
 			font-family: monospace;
-    	white-space: pre-wrap;
+			white-space: pre-wrap;
 		}
-		input {
+		h3{ 
+			margin-top:60px; 
+			margin-bottom:10px;
 		}
 	</style>
 </head>
 	<div id="textViewer">
 	</div>
+
 		<h3 class="page-title">Alerts</h3>
 		<div id="alerts">
-			<p><span>By Zone: </span><input type="text" value="IDZ020"><input class="alertSubmit" type="button" value="Get Alerts" data-filter="zone" /></p>
+			<p><span>By Zone: </span><input type="text" value="IDZ001"><input class="alertSubmit" type="button" value="Get Alerts" data-filter="zone" /></p>
 			<p><span>By Event Type: </span><input type="text" value="Avalanche Warning"><input class="alertSubmit" type="button" value="Get Alerts" data-filter="event"/></p>
 		</div>
+
 		<h3 class="page-title">Products</h3>
 		<div id="products">
 			<p><span>By Location: </span><input type="text" value="PIH"><input class="productSubmit" type="button" value="Get Products" data-filter="location" /></p>
 			<p><span>By Product Type: </span><input type="text" value="AFD"><input class="productSubmit" type="button" value="Get Products" data-filter="type"/></p>
 		</div>
+
+		<h3 class="page-title">Zones</h3>
+		<div id="zones">
+			<select id="zoneType">
+				<option value="forecast">forecast</option>
+				<option value="land">land</option>
+				<option value="marine">marine</option>
+				<option value="public">public</option>
+				<option value="coastal">coastal</option>
+				<option value="offshore">offshore</option>
+				<option value="fire">fire</option>
+				<option value="county">county</option>
+			</select>
+			<p><span>By Id: </span><input type="text" value="IDZ001"><input class="zoneSubmit" type="button" value="Get Zone" data-filter="id" /></p>
+			<p><span>By State: </span><input type="text" value="ID" ><input class="zoneSubmit" type="button" value="Get Zones" data-filter="area"/></p>
+		</div>
+
 		<h3 class="page-title">Forecasts</h3>
 		<div id="forecasts">
 			<p><span>Lat/Lon: </span><input type="text" value="45.0" id="forecastLat"><input type="text" value="-112.0" id="forecastLon"></p>
