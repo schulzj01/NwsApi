@@ -8,8 +8,7 @@ export default class Alert extends Base  {
 		this._queryUrl = 'https://api.weather.gov/alerts';
 		//this._activeUrl = '/active'
 		//this._zoneUrl = '/zone';
-		this._requestRetryLimit = 4;
-		this._requestRetryTimeout = 4000; //4000;
+
 		this._filters = {
 			active : null,
 			start : null,

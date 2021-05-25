@@ -1,6 +1,8 @@
 
 export default class Base { 
 	constructor(){
+		this._requestRetryLimit = 4;
+		this._requestRetryTimeout = 4000; 
 	}
 
   //retrys a promise multiple times with a timeout in order to deal with failed requests to the API.

@@ -5,10 +5,6 @@ export default class Product extends Base  {
 	constructor(filters,options) {
 		super();
 		this._queryUrl = 'https://api.weather.gov/products';
-		//this._activeUrl = '/active'
-		//this._zoneUrl = '/zone';
-		this._requestRetryLimit = 4;
-		this._requestRetryTimeout = 1000; //4000;
 		this._getAllLimit = 25;
 		this._filters = {
 			location : null,

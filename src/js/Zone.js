@@ -8,8 +8,6 @@ export default class Zone extends Base  {
 		this._queryUrl = 'https://api.weather.gov/zones';
 		this._zoneType = zoneType;
 
-		this._requestRetryLimit = 4;
-		this._requestRetryTimeout = 4000; //4000;
 		this._filters = {
 			id : null,
 			area : null,
