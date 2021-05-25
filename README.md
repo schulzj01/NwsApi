@@ -22,7 +22,7 @@ npm run build
 
 Usage: 
 
-Code hosted at https://www.weather.gov/wrh/NwsApi/NwsApi-{version}.js
+Code hosted at https://www.weather.gov/wrh/NwsApi/NwsApi-1.1.0.js
 
 Examples: 
 
