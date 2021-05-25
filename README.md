@@ -1,30 +1,30 @@
 A wrapper on top of the NWS API to speed up queries.
 
 
-Install dependencies: 
+#Install dependencies: 
 ```
 npm install
 ```
 
-Development: 
+#Development: 
 ```
 npm start
 ```
 Open brower to localhost:8080
 
 
-Build:
+#Build:
 
 Comment out the require('./development.js'); line in index.js
 ```
 npm run build
 ```
 
-Usage: 
+#Usage: 
 
 Code hosted at https://www.weather.gov/wrh/NwsApi/NwsApi-1.1.0.js
 
-Examples: 
+#Examples: 
 
 ```
 function myCallback(apiOutput){
