@@ -9,8 +9,6 @@ export default class Forecast extends Base  {
 		this._fcstHourlyUrl = 'forecast/hourly';
 		this._fcstSummaryUrl = 'forecast';
 
-		this._requestRetryLimit = 4;
-		this._requestRetryTimeout = 4000; 
 		this._lat = lat;
 		this._lon = lon;
 
