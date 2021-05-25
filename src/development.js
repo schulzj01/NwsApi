@@ -26,6 +26,7 @@ function alertSubmit(event){
 	let filter = button.dataset.filter;
 	let alert = new NwsApi.Alert({ 
 		[filter] : val,
+		limit : 10
 	});
 	waiting();
 	alert.getAll(populateText);
@@ -39,7 +40,7 @@ function productSubmit(event){
 	let filter = button.dataset.filter;
 	let product = new NwsApi.Product({ 
 		[filter] : val,
-		limit : 3
+		limit : 10
 	});
 	waiting();
 	product.getAll(populateText);
@@ -54,7 +55,7 @@ function zoneSubmit(event){
 	let zonetype = document.getElementById('zoneType').selectedOptions[0].value;
 	let zone = new NwsApi.Zone(zonetype,{ 
 		[filter] : val,
-		limit : 3
+		limit : 10
 	});
 	waiting();
 	zone.getAll(populateText);
