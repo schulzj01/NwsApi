@@ -20,6 +20,10 @@ Comment out the require('./development.js'); line in index.js
 npm run build
 ```
 
+Usage: 
+
+Code hosted at https://www.weather.gov/wrh/NwsApi/NwsApi-{version}.js
+
 Examples: 
 
 ```
@@ -64,12 +68,12 @@ let myZone1 = new NwsApi.Zone('fire', {area: 'ID'})
 myZone1.getAll(myCallback);
 
 //Get public zone information for 45.0 latitude, -125.0 longitude.
-let myZone1 = new NwsApi.Zone('forecast', {area: 'ID'})
-myZone1.getAll(myCallback);
+let myZone2 = new NwsApi.Zone('forecast', {area: 'ID'})
+myZone2.getAll(myCallback);
 
 //Get all Western Region marine zones with geometries.
-let myZone1 = new NwsApi.Zone('marine', {region: 'WR', include_geometry:true })
-myZone1.getAll(myCallback);
+let myZone3 = new NwsApi.Zone('marine', {region: 'WR', include_geometry:true })
+myZone3.getAll(myCallback);
 
 
 ```
