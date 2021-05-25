@@ -1,6 +1,6 @@
 {
   "name": "NwsApi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An attempt to have better access to the nws api",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

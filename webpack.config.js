@@ -1,18 +1,23 @@
-var libraryName = 'NwsApi';
-var outputFile = libraryName + '.js';
+
 
 const path = require('path');
-const { library } = require('webpack');
+const webpack = require('webpack');
 //const CopyPlugin = require("copy-webpack-plugin");
 
-var SRC_DIR = path.resolve(__dirname, './src');
-var BUILD_DIR = path.resolve(__dirname, './dist');
+const srcDir = path.resolve(__dirname, './src');
+const buildDir = path.resolve(__dirname, './dist');
+
+const pkg = require('./package.json')
+const version = pkg.version;
+
+const libraryName = 'NwsApi';
+const outputFile = `${libraryName}.js`;
 
 module.exports = {
-  entry: [SRC_DIR+'/index.js'],//SRC_DIR+'/development.js'],
+  entry: [srcDir+'/index.js'],//SRC_DIR+'/development.js'],
   output: {
     filename: outputFile,
-		path: BUILD_DIR,
+		path: buildDir,
 		library: libraryName,
 		libraryTarget: 'window',
 		scriptType: 'text/javascript',
@@ -25,5 +30,12 @@ module.exports = {
 		},
 		injectClient: false // via https://github.com/webpack/webpack-dev-server/issues/2484
 	},
+/*  plugins: [
+    new webpack.BannerPlugin({
+			banner: `Version:  ${version}\n\nAuthor: Jeremy.Schulz@noaa.gov\n\n`,
+			entryOnly: true,
+			extractComments: false
+		})
+  ]	*/
 	//devtool: 'inline-source-map',
 };
