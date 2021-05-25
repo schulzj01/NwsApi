@@ -24,6 +24,42 @@ npm run build
 
 Code hosted at https://www.weather.gov/wrh/NwsApi/NwsApi-1.1.0.js
 
+## Instantiating
+
+Products: 
+`let myProduct = new NwsApi.Product(filters);`
+
+Forecasts:
+`let myForecast = new NwsApi.Forecast(lat, lon, filters)`
+
+Alerts: 
+`let myAlert = new NwsApi.Alert(filters)`
+
+Zones: 
+```let myZone = new NwsApi.Zone(zoneType,filters)
+//Available zoneTypes : land, marine, forecast, public, coastal, offshore, fire, county```
+
+## Filtering
+
+Using the classes is fairly straight forward and filtering options for classes matches the API queries: https://www.weather.gov/documentation/services-web-api#/
+
+For example the Products class takes no arguments except for the filter you want.  These filterable options can be found on the documentation for the /products API using the link above. The /products URL in the API lists 7 filtering options (location,start,end,office,wmoid,type,limit), and all of these can be used by using the URL parameter as the filter object key.
+
+
+``` 
+let filters = {
+  location: [], //Location id,
+  start: '', //Start time
+  end: '', //End time
+  office: [], //Issuing office
+  wmoid: [], WMO id code
+  type: [], Product code (found via https://www.weather.gov/api/products/types)
+  limit: 10, Limit
+}
+let product = NwsApi.Product(filters)
+```
+
+
 # Examples
 
 ```
