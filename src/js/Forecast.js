@@ -37,6 +37,7 @@ export default class Forecast extends Base  {
 		if (callback)  { callback(this._summaryForecast,...args); }
 		else { return this._summaryForecast; }
 	}
+	
 	//Outside callable function to return multiple forecast types at once.
 	async getForecasts(types,callback,...args) {
 		let forecastData = {}
@@ -47,7 +48,7 @@ export default class Forecast extends Base  {
 		else { return forecastData }
 	}
 
-
+	//Callable from outside, but mainly used just inside this class.  I've added shortcut outside callable functions below for must metadata use cases 
 	async getMetaData(){
 		if (!this._pointMetadata){ await this.queryPointMetadata();	}
 		return this._pointMetadata; 
@@ -56,6 +57,24 @@ export default class Forecast extends Base  {
 	get gridX() { return this._pointMetadata.properties.gridX; }
 	get gridY() { return this._pointMetadata.properties.gridY; }
 	get cwa() { return this._pointMetadata.properties.cwa; }
+	get relativeLocation() { return this._pointMetadata.properties.relativeLocation}
+	get humanLocation(){
+		let meters = this.relativeLocation.properties.distance.value;
+		let degrees = this.relativeLocation.properties.bearing.value;
+		let city = this.relativeLocation.properties.city;
+		let state = this.relativeLocation.properties.state;
+		//Only display distance and direction if > 5 km from city.
+		let locationName = ''
+		if (meters > 5000) { 
+			let directions = ['N','NNW','NW','WNW','W','WSW','SW','SSW','S','SSE','SE','ESE','E','ENE','NE','NNE'];
+			let direction = directions[Math.round(((degrees %= 360) < 0 ? degrees + 360 : degrees) / 22.5) % 16];
+			//convert our meters to miles, cause 'merica
+			let distance = parseInt(0.000621371 * meters); 
+			locationName+= `${distance}mi ${direction} of `;
+		}
+		locationName+= `${city}, ${state}`; 
+		return locationName;
+	}
 
 	async queryPointMetadata() {
 		var url = this._baseUrl+this._pointMetadataUrl+this._lat+','+this._lon;
