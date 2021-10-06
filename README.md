@@ -77,7 +77,7 @@ let myProduct2 = new NwsApi.Product({ type: 'AFD', office: 'PIH' });
 myProduct2.getAll(myCallback);
 
 //Get latest AFD from PIH
-let myProduct3 = new NwsApi.Product({ type: 'AFD', office: 'PIH', limit: 1 });
+let myProduct3 = new NwsApi.Product({ type: 'AFD', office: 'KPIH', limit: 1 });
 myProduct3.getAll(myCallback); 
 
 //Get Summary Forecast for 45.0 latitude, -125.0 longitude.
