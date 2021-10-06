@@ -3,6 +3,9 @@ window.onload = function() {
 
 	let alertSubmits = [...document.getElementsByClassName('alertSubmit')];
 	alertSubmits.forEach(el => el.addEventListener('click',alertSubmit));
+	
+	let alertByCwaSubmits = [...document.getElementsByClassName('alertByCwaSubmit')];
+	alertByCwaSubmits.forEach(el => el.addEventListener('click',alertByCwaSubmit));	
 
 	let productSubmits = [...document.getElementsByClassName('productSubmit')];
 	productSubmits.forEach(el => el.addEventListener('click',productSubmit));
@@ -30,6 +33,14 @@ function alertSubmit(event){
 	});
 	waiting();
 	alert.getAll(populateText);
+}
+function alertByCwaSubmit(event){	
+	let button = event.srcElement;
+	let input = button.previousSibling;
+	let cwa = input.value;	
+	let alert = new NwsApi.Alert({active: true});
+	waiting();
+	alert.getByCwa(cwa,populateText);
 }
 
 /*  Product Tests   */

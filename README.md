@@ -100,6 +100,10 @@ myAlert1.getAll(myCallback);
 let myAlert3 = new NwsApi.Alert({ event: 'Red Flag Warning', active:true})
 myAlert3.getAll(myCallback);
 
+//Get all active warnings for a particular CWA.
+let myAlert3 = new NwsApi.Alert({ active:true })
+myAlert3.getByCwa('PIH',myCallback);
+
 //Get all Idaho fire zones.
 let myZone1 = new NwsApi.Zone('fire', {area: 'ID'})
 myZone1.getAll(myCallback);

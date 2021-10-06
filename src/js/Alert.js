@@ -43,7 +43,6 @@ export default class Alert extends Base  {
 
 	async getAll(callback,...args){
 		let url = this.buildGetUrl(this._queryUrl,this._filters);
-
 		try {
 			const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit);
 			let json = await response.json();
@@ -59,4 +58,23 @@ export default class Alert extends Base  {
 		else { return this.returnObj; }			
 	};
 
+	//The API doesn't provide a filter to only get alerts by office, so add this as an option.
+	async getByCwa(cwa,callback,...args){
+		await this.getAll();
+		cwa = cwa.toUpperCase();
+		let filteredFeatures = this.returnObj.features.filter(feature => {
+			let pil = feature?.properties?.parameters?.PIL[0];
+			if (pil){ 
+				let featCwa = pil.substr(6,3);
+				if ( featCwa == cwa ) { return true; }
+			}
+			return false;	
+		});
+		let filteredObj = {
+			updated : this.returnObj.updated,
+			features : filteredFeatures
+		};
+		if (callback) { callback(filteredObj,...args); }
+		else { return filteredObj; }					
+	}
 }
