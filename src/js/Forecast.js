@@ -1,6 +1,6 @@
 import Base from './Base.js';
 
-export default class Forecast extends Base  {
+export default class Forecast extends Base {
 	constructor(lat,lon) {
 		super();
 		this._baseUrl = 'https://api.weather.gov/';
@@ -20,19 +20,19 @@ export default class Forecast extends Base  {
 	//Outside callable function to return the raw forecast
 	async getRawForecast(callback,...args){
 		if (!this._rawForecast){ await this.queryRawForecast(); }
-		if (callback)  { callback(this._rawForecast,...args); }
+		if (callback) { callback(this._rawForecast,...args); }
 		else { return this._rawForecast; }
 	}
 	//Outside callable function to return the hourly forecast
 	async getHourlyForecast(callback,...args){
 		if (!this._hourlyForecast){ await this.queryHourlyForecast(); }
-		if (callback)  { callback(this._hourlyForecast,...args); }
+		if (callback) { callback(this._hourlyForecast,...args); }
 		else { return this._hourlyForecast; }
 	}
 	//Outside callable function to return the summary forecast
 	async getSummaryForecast(callback,...args){
 		if (!this._summaryForecast){ await this.querySummaryForecast(); }
-		if (callback)  { callback(this._summaryForecast,...args); }
+		if (callback) { callback(this._summaryForecast,...args); }
 		else { return this._summaryForecast; }
 	}
 	
@@ -42,11 +42,11 @@ export default class Forecast extends Base  {
 		if (types.includes('raw')) { forecastData['raw'] = await this.getRawForecast(); }
 		if (types.includes('hourly')) { forecastData['hourly'] = await this.getHourlyForecast(); }
 		if (types.includes('summary')) { forecastData['summary'] = await this.getSummaryForecast(); }
-		if (callback)  { callback(forecastData,...args); }
+		if (callback) { callback(forecastData,...args); }
 		else { return forecastData }
 	}
 
-	//Callable from outside, but mainly used just inside this class.  I've added shortcut outside callable functions below for must metadata use cases 
+	//Callable from outside, but mainly used just inside this class. I've added shortcut outside callable functions below for must metadata use cases 
 	async getMetaData(){
 		if (!this._pointMetadata){ await this.queryPointMetadata();	}
 		return this._pointMetadata; 
@@ -55,6 +55,7 @@ export default class Forecast extends Base  {
 	get gridX() { return this._pointMetadata.properties.gridX; }
 	get gridY() { return this._pointMetadata.properties.gridY; }
 	get cwa() { return this._pointMetadata.properties.cwa; }
+	get gridId() { return this._pointMetadata.properties.gridId; }
 	get relativeLocation() { return this._pointMetadata.properties.relativeLocation}
 	get humanLocation(){
 		let meters = this.relativeLocation.properties.distance.value;
@@ -85,7 +86,7 @@ export default class Forecast extends Base  {
 	async queryRawForecast(callback,...args) {	
 		if (!this._pointMetadata){ await this.queryPointMetadata();	}
 		try {
-			var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY
+			var url = this._baseUrl+this._gridpointsUrl+this.gridId+'/'+this.gridX+','+this.gridY
 			const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit)
 			this._rawForecast = await response.json();
 		}
@@ -94,7 +95,7 @@ export default class Forecast extends Base  {
 	async queryHourlyForecast(callback,...args) {
 		if (!this._pointMetadata){ await this.queryPointMetadata();	}
 		try {
-			var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY+'/'+this._fcstHourlyUrl;
+			var url = this._baseUrl+this._gridpointsUrl+this.gridId+'/'+this.gridX+','+this.gridY+'/'+this._fcstHourlyUrl;
 			const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit)
 			const json = await response.json();
 			this._hourlyForecast = json 
@@ -104,7 +105,7 @@ export default class Forecast extends Base  {
 	async querySummaryForecast(callback,...args) {
 		if (!this._pointMetadata){ await this.queryPointMetadata();	}
 		try {
-			var url = this._baseUrl+this._gridpointsUrl+this.cwa+'/'+this.gridX+','+this.gridY+'/'+this._fcstSummaryUrl;
+			var url = this._baseUrl+this._gridpointsUrl+this.gridId+'/'+this.gridX+','+this.gridY+'/'+this._fcstSummaryUrl;
 			const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit)
 			const json = await response.json();
 			this._summaryForecast = json 

@@ -22,7 +22,7 @@ export default class Product extends Base  {
 			updated : null,
 			features : null
 		}
-		this._filters = Object.assign(this._filters, filters);   // Could also just do "addedBack.comments = Comments.comments;" if you only care about this one property
+		this._filters = Object.assign(this._filters, filters); // Could also just do "addedBack.comments = Comments.comments;" if you only care about this one property
 	};
 
 
