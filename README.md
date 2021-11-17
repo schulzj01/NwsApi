@@ -36,7 +36,8 @@ Alerts:
 `let myAlert = new NwsApi.Alert(filters)`
 
 Zones: 
-```let myZone = new NwsApi.Zone(zoneType,filters)
+```
+let myZone = new NwsApi.Zone(zoneType,filters)
 //Available zoneTypes : land, marine, forecast, public, coastal, offshore, fire, county
 ```
 
