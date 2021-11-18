@@ -1,6 +1,13 @@
 import Base from './Base.js';
 
-
+/**
+ *  A class to handle alert queries to the NWS API. Once this class has been instantiated,
+ *  you can query the alerts with either the getAll() or getByCwa()  methods.
+ *  Filters can be found: https://www.weather.gov/documentation/services-web-api#/default/alerts_query
+ *  @param {Object} filters - A key value pair set of filters for the Alerts query. 
+ *  @param {Object} options - placeholder for now
+ * 
+ */
 export default class Alert extends Base  {
 	
 	constructor(filters,options) {
@@ -41,6 +48,12 @@ export default class Alert extends Base  {
 		this._filters = Object.assign(this._filters, filters);   // Could also just do "addedBack.comments = Comments.comments;" if you only care about this one property
 	};
 
+	/**
+	 * Get alerts for the specified filters in the class.  
+	 * @param {Function} callback - A callback to handle the alerts.
+	 * @param  {args} args - Any further arguments passed to this function go through to the callback
+	 * @returns {Object} - An object with a date of when the query was updated, the features as an array, as well as the resultant type
+	 */
 	async getAll(callback,...args){
 		let url = this.buildGetUrl(this._queryUrl,this._filters);
 		try {
@@ -57,8 +70,13 @@ export default class Alert extends Base  {
 		if (callback) { callback(this.returnObj,...args); }
 		else { return this.returnObj; }			
 	};
-
-	//The API doesn't provide a filter to only get alerts by office, so add this as an option.
+	/**
+	 * Get alerts for the specified filters in the class, but only return results by CWA.  The API doesn't provide a filter to only get alerts by office, so add this as an option.
+	 * @param {String} cwa - three digit office identifier. This probably could be expanded to instead use an array of different cwas instead.
+	 * @param {Function} callback - A callback to handle the alerts.
+	 * @param  {args} args - Any further arguments passed to this function go through to the callback
+	 * @returns {Object} - An object with a date of when the query was updated, the features as an array, as well as the resultant type
+	 */
 	async getByCwa(cwa,callback,...args){
 		await this.getAll();
 		cwa = cwa.toUpperCase();

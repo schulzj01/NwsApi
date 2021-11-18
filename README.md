@@ -1,24 +1,4 @@
-A wrapper on top of the NWS API to speed up queries.
-
-
-# Install dependencies 
-```
-npm install
-```
-
-# Development
-```
-npm start
-```
-Open brower to localhost:8080
-
-
-# Build
-
-Comment out the require('./development.js'); line in index.js
-```
-npm run build
-```
+A wrapper on top of the NWS API to speed up queries, and to simplify calls.
 
 # Usage
 
@@ -118,4 +98,24 @@ let myZone3 = new NwsApi.Zone('marine', {region: 'WR', include_geometry:true })
 myZone3.getAll(myCallback);
 
 
+```
+
+
+
+# Development
+```
+npm start
+```
+Open brower to localhost:8080
+
+## Install dependencies 
+```
+npm install
+```
+
+## Build
+
+Comment out the require('./development.js'); line in index.js
+```
+npm run build
 ```

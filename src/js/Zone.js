@@ -1,5 +1,14 @@
 import Base from './Base.js';
 
+/**
+ *  A class to handle zone queries to the NWS API. Queries are generally by lat/lon so this class helps to save 
+ *  the extra query step of having to find the lat/lon via the gridpoints URI.  Once this class has bene instantiated,
+ *  you can query the zone info with the getAll method.
+ *  Filters can be found: https://www.weather.gov/documentation/services-web-api#/default/zone_list
+ *  @param {String} zoneType - A string value for the zone type you want.  Aavailable types: land, marine, forecast, public, coastal, offshore, fire, county. 
+ *  @param {Object} filters - A key value pair set of filters for the Product query. 
+ * 
+ */
 
 export default class Zone extends Base  {
 	
@@ -28,7 +37,12 @@ export default class Zone extends Base  {
 		this._allowableZoneTypes = ['land','marine','forecast','public','coastal','offshore','fire','county']
 		if (!this._allowableZoneTypes.includes(this._zoneType)) { throw new Error(`Zone type '${this._zoneType}' not valid.  Appropriate values are (${this._allowableZoneTypes.join('|')})`)}
 	};
-
+	/**
+	 * Get the zone information for the specified filters in the class.
+	 * @param {Function} callback - A callback to handle the zone info.
+	 * @param  {args} args - Any further arguments passed to this function go through to the callback
+	 * @returns {Object} - An object with a listing of all zone information
+	 */
 	async getAll(callback,...args){
 		let zoneUrl = this._queryUrl+'/'+this._zoneType;
 		let url = this.buildGetUrl(zoneUrl,this._filters);

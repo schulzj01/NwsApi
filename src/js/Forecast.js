@@ -1,6 +1,15 @@
 import Base from './Base.js';
 
+/**
+ *  A class to handle forecast queries to the NWS API. Queries are generally by lat/lon so this class helps to save 
+ *  the extra query step of having to find the lat/lon via the gridpoints URI.  Once this class has bene instantiated,
+ *  you can query the forecast with the get*Forecast methods.
+ *  @param {Number} lat - latitude of the forecast point you need
+ *  @param {Number} lon - longitude of the forecast point you need
+ * 
+ */
 export default class Forecast extends Base {
+
 	constructor(lat,lon) {
 		super();
 		this._baseUrl = 'https://api.weather.gov/';
@@ -17,26 +26,51 @@ export default class Forecast extends Base {
 		this._summaryForecast = null;
 		this._hourlyForecast = null;
 	}
-	//Outside callable function to return the raw forecast
+	/**
+	 * Return the raw (all forecast data) from the API.  This can be called with a callback function to handle the results, 
+	 * or can be called as part of an async query, to return the data the data as a string.
+	 * @param {Function} callback - callback function that will handle the requests.
+	 * @param  {...any} args - additional arguments to pass to the callback function.
+	 * @returns {Object} - Forecast data object
+	 */
 	async getRawForecast(callback,...args){
 		if (!this._rawForecast){ await this.queryRawForecast(); }
 		if (callback) { callback(this._rawForecast,...args); }
 		else { return this._rawForecast; }
 	}
-	//Outside callable function to return the hourly forecast
+	/**
+	 * Return the hourly forecast data from the API.  This can be called with a callback function to handle the results, 
+	 * or can be called as part of an async query, to return the data the data as a string.
+	 * @param {Function} callback - callback function that will handle the requests.
+	 * @param  {...any} args - additional arguments to pass to the callback function.
+	 * @returns {Object} - Forecast data object
+	 */
 	async getHourlyForecast(callback,...args){
 		if (!this._hourlyForecast){ await this.queryHourlyForecast(); }
 		if (callback) { callback(this._hourlyForecast,...args); }
 		else { return this._hourlyForecast; }
 	}
-	//Outside callable function to return the summary forecast
+	/**
+	 * Return the summary forecast data from the API.  This can be called with a callback function to handle the results, 
+	 * or can be called as part of an async query, to return the data the data as a string.
+	 * @param {Function} callback - callback function that will handle the requests.
+	 * @param  {...any} args - additional arguments to pass to the callback function.
+	 * @returns {Object} - Forecast data object
+	 */
 	async getSummaryForecast(callback,...args){
 		if (!this._summaryForecast){ await this.querySummaryForecast(); }
 		if (callback) { callback(this._summaryForecast,...args); }
 		else { return this._summaryForecast; }
 	}
 	
-	//Outside callable function to return multiple forecast types at once.
+	/**
+	 * Return a combination of forecast data types from the API.  This can be called with a callback function to handle the results, 
+	 * or can be called as part of an async query, to return the data the data as a string.
+	 * @param {Array} types - An array of strings of raw,hourly,summary to represent which forecast types to return.
+	 * @param {Function} callback - callback function that will handle the requests.
+	 * @param  {...any} args - additional arguments to pass to the callback function.
+	 * @returns {Object} - Forecast data object with other forecast types broken up as separate properties
+	 */
 	async getForecasts(types,callback,...args) {
 		let forecastData = {}
 		if (types.includes('raw')) { forecastData['raw'] = await this.getRawForecast(); }
@@ -46,7 +80,11 @@ export default class Forecast extends Base {
 		else { return forecastData }
 	}
 
-	//Callable from outside, but mainly used just inside this class. I've added shortcut outside callable functions below for must metadata use cases 
+	/**
+	 * Return the point metadata about a lat/lon point. Callable from outside, but mainly used just inside this class.  
+	 * I've added shortcut outside callable functions below for must metadata use cases 
+	 * @returns metadata on lat/lon point.
+	 */
 	async getMetaData(){
 		if (!this._pointMetadata){ await this.queryPointMetadata();	}
 		return this._pointMetadata; 
@@ -57,6 +95,10 @@ export default class Forecast extends Base {
 	get cwa() { return this._pointMetadata.properties.cwa; }
 	get gridId() { return this._pointMetadata.properties.gridId; }
 	get relativeLocation() { return this._pointMetadata.properties.relativeLocation}
+	/**
+	 * Retuns a human readable location instead of what's given by the API. 
+	 * @returns {String} Location name (i.e. 30mi N of Pocatello)
+	 */
 	get humanLocation(){
 		let meters = this.relativeLocation.properties.distance.value;
 		let degrees = this.relativeLocation.properties.bearing.value;
@@ -75,6 +117,9 @@ export default class Forecast extends Base {
 		return locationName;
 	}
 
+	/**
+	 * Queries (and retries if necessary) the metadata for the lat/lon
+	 */
 	async queryPointMetadata() {
 		var url = this._baseUrl+this._pointMetadataUrl+this._lat+','+this._lon;
 		try { 
@@ -83,6 +128,9 @@ export default class Forecast extends Base {
 		}	
 		catch { throw new Error(`Unable to load API Metadata from ${url}`); }		
 	};
+	/**
+	 * Queries (and retries if necessary) the metadata for the raw forecast.
+	 */	
 	async queryRawForecast(callback,...args) {	
 		if (!this._pointMetadata){ await this.queryPointMetadata();	}
 		try {
@@ -92,6 +140,9 @@ export default class Forecast extends Base {
 		}
 		catch { throw new Error(`Unable to load Raw Forecast from ${url}`); }
 	}
+	/**
+	 * Queries (and retries if necessary) the metadata for the hourly forecast.
+	 */		
 	async queryHourlyForecast(callback,...args) {
 		if (!this._pointMetadata){ await this.queryPointMetadata();	}
 		try {
@@ -102,6 +153,9 @@ export default class Forecast extends Base {
 		}
 		catch { throw new Error(`Unable to load Hourly Forecast from ${url}`); }
 	}
+	/**
+	 * Queries (and retries if necessary) the metadata for the summary forecast.
+	 */		
 	async querySummaryForecast(callback,...args) {
 		if (!this._pointMetadata){ await this.queryPointMetadata();	}
 		try {
@@ -112,7 +166,9 @@ export default class Forecast extends Base {
 		}
 		catch { throw new Error(`Unable to load Summary Forecast from ${url}`); }
 	}
-
+	/**
+	 * Helper function to return raw forecast data between forecast periods if desired.
+	 */	
 	async getRawWeatherDataBetweenPeriods(element,startDate,endDate){
 		if (!this._rawForecast){ await this.getRawForecast();	}
 		let rawFcstData = this._rawForecast.properties[element].values;
@@ -130,57 +186,4 @@ export default class Forecast extends Base {
 		})
 		return validHourlyFcstData;
 	}
-	
-/*	hourlyTimesBetween(startDate,endDate){
-		let desiredForecastDates = [];
-		let hourlyDate = startDate; 
-		while (hourlyDate < endDate){
-			desiredForecastDates.push(new Date(hourlyDate))
-			hourlyDate = new Date(hourlyDate.setHours(hourlyDate.getHours() + 1));
-		}
-		return desiredForecastDates;
-	}*/
-
-/*	hourlyForecastFromRaw(wxData,calc){
-		let wxDataTimePeriod = this.decodeRawForecastTimePeriod(wxData.validTime)
-		let hourlyForecastData = [];
-		let hourlyDate = wxDataTimePeriod.startDate;
-		let hourlyValue;
-		if (calc == 'split') { hourlyValue = wxData.value / wxDataTimePeriod.duration; }
-		else { hourlyValue = wxData.value; }
-		while (hourlyDate < wxDataTimePeriod.endDate){
-			let hourlyStartDate = new Date(hourlyDate);
-			hourlyDate = new Date(hourlyDate.setHours(hourlyDate.getHours() + 1))
-			let hourlyEndDate = new Date(hourlyDate); 
-			hourlyForecastData.push({
-				startDate : hourlyStartDate,
-				endDate : hourlyEndDate,
-				value : hourlyValue
-			})
-		}
-		return hourlyForecastData;
-	}
-	
-
-	decodeRawForecastTimePeriod(validTime){
-		let start = validTime.split('/')[0];
-		let duration = validTime.split('/')[1];
-		duration = parseInt(duration.substring(duration.lastIndexOf("T") + 1,duration.lastIndexOf("H")))
-		let startDate = new Date(start);
-		let endDate = new Date(start);
-		endDate.setHours(endDate.getHours()+duration);
-		return {"startDate": startDate, "endDate": endDate, "duration": duration };
-	}*/
-
-
-
-	
-//		const summaryFcst = await this.summarhyForecast();
-//		if (!this._pointMetadata){ await this.apiPointMetaData();	}
-//		var url = this._baseUrl+this._gridpointsUrl+this._cwa+'/'+this._gridX+','+this._gridY+'/'+this._fcstSummaryUrl;
-//		const response = await fetch(url)
-//		const json = await response.json();
-//		callback(json,...args)
-//	}
-
 }
