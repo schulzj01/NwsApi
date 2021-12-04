@@ -89,7 +89,7 @@ myAlert3.getByCwa('PIH',myCallback);
 let myZone1 = new NwsApi.Zone('fire', {area: 'ID'})
 myZone1.getAll(myCallback);
 
-//Get public zone information for 45.0 latitude, -125.0 longitude.
+//Get public zone information for Idaho.
 let myZone2 = new NwsApi.Zone('forecast', {area: 'ID'})
 myZone2.getAll(myCallback);
 
