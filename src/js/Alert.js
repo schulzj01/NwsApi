@@ -85,7 +85,7 @@ export default class Alert extends Base  {
 			let pil = feature?.properties?.parameters?.PIL?.[0];
 			let awipsId = feature?.properties?.parameters?.AWIPSidentifier?.[0]
 			if (pil){ featCwa = pil.substr(6,3); }
-			else if (awipsId){ console.log(awipsId); featCwa = awipsId.substr(3,3); }
+			else if (awipsId){ featCwa = awipsId.substr(3,3); }
 			if ( featCwa == cwa ) { return true; }
 			return false; 
 		});
