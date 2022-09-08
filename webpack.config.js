@@ -24,11 +24,15 @@ module.exports = {
 	},
 	devServer: {
 		port: 8080,
-		hot:true,
-		static: {
-			watch: true, 
-		},
-		injectClient: false // via https://github.com/webpack/webpack-dev-server/issues/2484
+		static: srcDir,
+		hot:true, //'only',
+		open: true,
+		https:true,
+
+		/*static: {
+			watch: true,
+		},*/
+		//injectClient: false // via https://github.com/webpack/webpack-dev-server/issues/2484
 	},
 /*  plugins: [
     new webpack.BannerPlugin({

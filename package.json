@@ -13,6 +13,6 @@
   },
   "devDependencies": {
     "webpack-cli": "^4.3.1",
-    "webpack-dev-server": "^4.0.0-beta.0"
+    "webpack-dev-server": "^4.11.0"
   }
 }

@@ -1,0 +1,30 @@
+# Ignore Mac system files
+.DS_store
+Thumbs.db
+
+#Ignore Thumbnails
+._*
+
+# Ignore node_modules folder
+node_modules
+
+# Ignore files related to API keys
+.env
+
+# Ignore SASS config files
+.sass-cache
+
+# Ignore Google App Script clasp files
+.clasp.json
+
+#Ignore appscript.json files
+appsscript.json
+
+# Ignore Python pyc files
+.pyc
+
+#Ignore package-changed hash files
+.packagehash
+
+#Ignore VS Code project settings
+.vscode/
