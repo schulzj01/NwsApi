@@ -2,20 +2,20 @@ A wrapper on top of the NWS API to speed up queries, and to simplify calls.
 
 # Usage
 
-Code hosted at https://www.weather.gov/source/wrh/NwsApi/NwsApi-1.1.0.js
+Code hosted at https://www.weather.gov/source/wrh/NwsApi/NwsApi.js
 
 ## Instantiating
 
-Products: 
+Products:
 `let myProduct = new NwsApi.Product(filters);`
 
 Forecasts:
 `let myForecast = new NwsApi.Forecast(lat, lon, filters)`
 
-Alerts: 
+Alerts:
 `let myAlert = new NwsApi.Alert(filters)`
 
-Zones: 
+Zones:
 ```
 let myZone = new NwsApi.Zone(zoneType,filters)
 //Available zoneTypes : land, marine, forecast, public, coastal, offshore, fire, county
@@ -28,7 +28,7 @@ Using the classes is fairly straight forward and filtering options for classes m
 For example the Products class takes no arguments except for the filter you want.  These filterable options can be found on the documentation for the /products API using the link above. The /products URL in the API lists 7 filtering options (location,start,end,office,wmoid,type,limit), and all of these can be used by using the URL parameter as the filter object key.
 
 
-``` 
+```
 let filters = {
   location: [], //Location id,
   start: '', //Start time
@@ -59,7 +59,7 @@ myProduct2.getAll(myCallback);
 
 //Get latest AFD from PIH
 let myProduct3 = new NwsApi.Product({ type: 'AFD', office: 'KPIH', limit: 1 });
-myProduct3.getAll(myCallback); 
+myProduct3.getAll(myCallback);
 
 //Get Summary Forecast for 45.0 latitude, -125.0 longitude.
 let myForecast1 = new NwsApi.Forecast(45.0,-125.0)
@@ -108,7 +108,7 @@ npm start
 ```
 Open brower to localhost:8080
 
-## Install dependencies 
+## Install dependencies
 ```
 npm install
 ```
