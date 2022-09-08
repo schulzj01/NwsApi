@@ -7,4 +7,4 @@ import Product from './js/Product.js';
 export {Alert, Forecast, Zone, Product};
 
 //Comment out development tools before running build.
-require('./development.js');
+//require('./development.js');
