@@ -3,9 +3,9 @@ window.onload = function() {
 
 	let alertSubmits = [...document.getElementsByClassName('alertSubmit')];
 	alertSubmits.forEach(el => el.addEventListener('click',alertSubmit));
-	
+
 	let alertByCwaSubmits = [...document.getElementsByClassName('alertByCwaSubmit')];
-	alertByCwaSubmits.forEach(el => el.addEventListener('click',alertByCwaSubmit));	
+	alertByCwaSubmits.forEach(el => el.addEventListener('click',alertByCwaSubmit));
 
 	let productSubmits = [...document.getElementsByClassName('productSubmit')];
 	productSubmits.forEach(el => el.addEventListener('click',productSubmit));
@@ -22,25 +22,26 @@ function populateText(data){ document.getElementById('textViewer').innerHTML = j
 function waiting(){ populateText('Loading...'); }
 
 /*   Alert Tests  */
-function alertSubmit(event){	
+function alertSubmit(event){
 	let button = event.srcElement;
 	let input = button.previousSibling;
 	let val = input.value;
 	let filter = button.dataset.filter;
-	let alert = new NwsApi.Alert({ 
+	let alert = new NwsApi.Alert({
 		[filter] : val,
 		limit : 10
 	});
 	waiting();
 	alert.getAll(populateText);
 }
-function alertByCwaSubmit(event){	
+function alertByCwaSubmit(event){
 	let button = event.srcElement;
 	let input = button.previousSibling;
-	let cwa = input.value;	
+	let cwas = input.value;
 	let alert = new NwsApi.Alert({active: true});
 	waiting();
-	alert.getByCwa(cwa,populateText);
+	cwaArray = cwas.split(',');
+	alert.getByCwa(cwaArray,populateText);
 }
 
 /*  Product Tests   */
@@ -49,7 +50,7 @@ function productSubmit(event){
 	let input = button.previousSibling;
 	let val = input.value;
 	let filter = button.dataset.filter;
-	let product = new NwsApi.Product({ 
+	let product = new NwsApi.Product({
 		[filter] : val,
 		limit : 10
 	});
@@ -64,7 +65,7 @@ function zoneSubmit(event){
 	let val = input.value;
 	let filter = button.dataset.filter;
 	let zonetype = document.getElementById('zoneType').selectedOptions[0].value;
-	let zone = new NwsApi.Zone(zonetype,{ 
+	let zone = new NwsApi.Zone(zonetype,{
 		[filter] : val,
 		limit : 10
 	});

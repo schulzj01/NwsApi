@@ -9,8 +9,9 @@
   <meta name="viewport"
 				content="width=device-width,user-scalable=0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 	<script src="NwsApi.js"></script>
+	<script src="development.js"></script>
 	<style>
-		body{margin-left:40px;}		
+		body{margin-left:40px;}
 		#textViewer {
 			float:right;
 			width:1000px;
@@ -20,14 +21,14 @@
 			font-family: monospace;
 			white-space: pre-wrap;
 		}
-		h3{ 
-			margin-top:60px; 
+		h3{
+			margin-top:60px;
 			margin-bottom:10px;
 		}
 	</style>
 </head>
 	<div id="textViewer"></div>
-		<small>Alert, Product, and Zone example API requests have a limit value of 10 set for speed purposes when developing.</p>	
+		<small>Alert, Product, and Zone example API requests have a limit value of 10 set for speed purposes when developing.</p>
 		<h3 class="page-title">Alerts</h3>
 		<div id="alerts">
 			<p><span>By Zone: </span><input type="text" value="IDZ001"><input class="alertSubmit" type="button" value="Get All Alerts" data-filter="zone" /></p>
@@ -69,7 +70,7 @@
 				<input class="forecastSubmit" type="button" data-forecast="zone" value="Get Zone Forecast" disabled/>
 				<input class="forecastSubmit" type="button" data-forecast="raw,hourly,summary" value="Get All Forecasts" />
 			</p>
-		</div>			
+		</div>
 	</div>
 </body>
 </html>
