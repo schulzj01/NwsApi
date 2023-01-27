@@ -82,6 +82,11 @@ export default class Alert extends Base  {
 		//If we only have a single cwa as a string, make sure it's an array so it's compatible with prior versions
 		if (!Array.isArray(cwas)) { cwas = [cwas]; }
 		let CWAS = cwas.map(cwa => cwa.toUpperCase());
+
+		//Alaska CWAs actually use different PILS, so include that workaround here:
+		if (CWAS.includes('AFC')) { CWAS.push('ALU','AER'); }
+		if (CWAS.includes('AFG')) { CWAS.push('WCZ'); }
+
 		let filteredFeatures = this.returnObj.features.filter(feature => {
 			let featCwa;
 			let pil = feature?.properties?.parameters?.PIL?.[0];
