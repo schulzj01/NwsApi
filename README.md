@@ -106,7 +106,7 @@ myZone3.getAll(myCallback);
 ```
 npm start
 ```
-Open brower to localhost:8080
+Open browser to localhost:8080
 
 ## Install dependencies
 ```
@@ -115,7 +115,6 @@ npm install
 
 ## Build
 
-Comment out the require('./development.js'); line in index.js
 ```
 npm run build
 ```
