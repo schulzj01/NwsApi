@@ -125,7 +125,6 @@ export default class Forecast extends Base {
 		try {
 			const response = await this.retryFetch(url, null, this._requestRetryTimeout, this._requestRetryLimit);
 			this._pointMetadata = await response.json();
-			this.fix1x1GridMisalignment();
 		}
 		catch { throw new Error(`Unable to load API Metadata from ${url}`); }
 	};
@@ -190,9 +189,11 @@ export default class Forecast extends Base {
 
 	/**
 	 * This addresses ServiceNow Ticket INC0317747. Certain WFO's data have a misalignment by 1 in the vertical
-	 * and 1 in the horizontal.  This workaround subtracts the extra 1,1 grid that is affecting these sites
+	 * and 1 in the horizontal.  This workaround subtracts the extra 1,1 grid that is affecting these sites.
+	 *
+	 * This function is no longer needed and is not leveraged in the code, since the API was updated, but is left here for legacy implementation if need be.
 	 */
-	fix1x1GridMisalignment(){
+	/*fix1x1GridMisalignment(){
 		let affectedCWAs = ['AFC','AER','ALU', 'AFG', 'AJK', 'BOX', 'CAE', 'DLH', 'HGX', 'HNX', 'LIX', 'LWX', 'MAF', 'MFR', 'MLB', 'MRX', 'MTR']
 		if (affectedCWAs.includes(this._pointMetadata?.properties?.cwa)) {
 			let props = this._pointMetadata.properties;
@@ -206,5 +207,5 @@ export default class Forecast extends Base {
 				props[prop] = (props[prop]) ? props[prop].replace(prevUrlText,newUrlText) : null
 			})
 		}
-	}
+	}*/
 }
